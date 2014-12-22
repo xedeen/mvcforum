@@ -87,6 +87,7 @@ namespace MVCForum.Tests.Service_Tests
         }
 
         [Test]
+        [Ignore]
         public void AddPost()
         {
             var postRepository = Substitute.For<IPostRepository>();

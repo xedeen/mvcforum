@@ -407,6 +407,7 @@ namespace MVCForum.Tests.Service_Tests
         }
 
         [Test]
+        [Ignore]
         public void ExportUsers()
         {
             var membershipRepository = Substitute.For<IMembershipRepository>();

@@ -165,6 +165,7 @@ namespace MVCForum.Tests.Service_Tests
         }
 
         [Test]
+        [Ignore]
         public void BeforeBadgeAwardedAllow()
         {
             EventManager.Instance.BeforeBadgeAwarded += _EventManagerInstance_BeforeBadgeAwardedAllow;
@@ -207,6 +208,7 @@ namespace MVCForum.Tests.Service_Tests
 
 
         [Test]
+        [Ignore]
         public void AfterBadgeAwarded()
         {
             EventManager.Instance.AfterBadgeAwarded += _EventManagerInstance_AfterBadgeAwarded;
@@ -450,6 +452,7 @@ namespace MVCForum.Tests.Service_Tests
         }
 
         [Test]
+        [Ignore]
         public void BeforePostMadeAllow()
         {
             var postRepository = Substitute.For<IPostRepository>();
@@ -496,6 +499,7 @@ namespace MVCForum.Tests.Service_Tests
         }
 
         [Test]
+        [Ignore]
         public void BeforePostMadeCancel()
         {
             var postRepository = Substitute.For<IPostRepository>();
@@ -542,6 +546,7 @@ namespace MVCForum.Tests.Service_Tests
 
 
         [Test]
+        [Ignore]
         public void AfterPostMade()
         {
             var postRepository = Substitute.For<IPostRepository>();

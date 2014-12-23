@@ -141,7 +141,7 @@ select { }
 .submit-holder { padding: 18px 0; }
 
 /*--- Header ---*/
-.navbar .brand { padding: 4px 0 0 0; margin: 5px 15px 0 0; width: 145px; height: 28px; display: block; text-transform: capitalize; text-indent: -9999px; background: transparent url('../Images/admin-n3o-logo.png') no-repeat; }
+.navbar .brand { padding: 4px 0 0 0; margin: 5px 15px 0 0; width: 53px; height: 53px; display: block; text-transform: capitalize; text-indent: -9999px; background: transparent url('../Images/admin-n3o-logo.png') no-repeat; }
 
 /*--- small logon ---*/
 .loginsmallheader { background-color: #eee; -moz-border-radius: 4px; -webkit-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; text-align: center; padding: 3px 0; }

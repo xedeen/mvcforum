@@ -29,6 +29,7 @@ namespace MVCForum.Services
         private readonly IVoteService _voteService;
         private readonly IBadgeService _badgeService;
         private readonly ICategoryNotificationService _categoryNotificationService;
+        private readonly IWaterService _waterService;
         private readonly ILoggingService _loggingService;
 
         private LoginAttemptStatus _lastLoginStatus = LoginAttemptStatus.LoginSuccessful;
@@ -54,7 +55,8 @@ namespace MVCForum.Services
             IEmailService emailService, ILocalizationService localizationService, IActivityService activityService, 
             IPrivateMessageService privateMessageService, IMembershipUserPointsService membershipUserPointsService, 
             ITopicNotificationService topicNotificationService, IVoteService voteService, IBadgeService badgeService,
-            ICategoryNotificationService categoryNotificationService, IMVCForumAPI api, ILoggingService loggingService)
+            ICategoryNotificationService categoryNotificationService, IMVCForumAPI api, ILoggingService loggingService,
+            IWaterService waterService)
         {
             _membershipRepository = membershipRepository;
             _settingsRepository = settingsRepository;
@@ -67,6 +69,7 @@ namespace MVCForum.Services
             _voteService = voteService;
             _badgeService = badgeService;
             _categoryNotificationService = categoryNotificationService;
+            _waterService = waterService;
             _api = api;
             _loggingService = loggingService;
         }
@@ -638,6 +641,14 @@ namespace MVCForum.Services
                 foreach (var categoryNotificationToDelete in categoryNotificationsToDelete)
                 {
                     _categoryNotificationService.Delete(categoryNotificationToDelete);
+                }
+
+                // Delete all water results
+                var waterResultsToDelete = new List<WaterResult>();
+                waterResultsToDelete.AddRange(user.WaterResults);
+                foreach (var result in waterResultsToDelete)
+                {
+                  _waterService.Delete(waterResultsToDelete);
                 }
 
                 // Just clear the roles, don't delete them

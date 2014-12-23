@@ -82,6 +82,7 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IMembershipUserPointsService, MembershipUserPointsService>();
             container.BindInRequestScope<ICategoryPermissionForRoleService, CategoryPermissionForRoleService>();
             container.BindInRequestScope<ICategoryNotificationService, CategoryNotificationService>();
+            container.BindInRequestScope<IWaterService, WaterService>();
             container.BindInRequestScope<ITopicNotificationService, TopicNotificationService>();
             container.BindInRequestScope<IPrivateMessageService, PrivateMessageService>();
             container.BindInRequestScope<ILoggingService, LoggingService>();

@@ -185,6 +185,9 @@ select { }
 .statsblock { font-size: 20px; font-weight: bold; padding: 8px 0 2px 0; color: #fff; border-top: 2px solid #a8a7a7; height: 45px; width: 44px; float: left; background: none repeat scroll 0 0 #BFBFBF; }
 .statsblock span { font-size: 9px; font-weight: normal; display: block; }
 
+.waterstatsblock {padding: 0; margin: 2px;}
+.waterstatsblock h3 { display: block; float: right; height: 55px;}
+.waterstatsblock .topicstats { margin: 2px;}
 .topicvotes { }
 .topicvotessmall { background: none repeat scroll 0 0 #BFBFBF; display: block; width: 25px; font-size: 18px; text-align: center; }
 .topiccomments { margin: 0 4px; }

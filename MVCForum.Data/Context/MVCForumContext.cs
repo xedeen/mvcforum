@@ -15,6 +15,7 @@ namespace MVCForum.Data.Context
         public DbSet<BadgeTypeTimeLastChecked> BadgeTypeTimeLastChecked { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<CategoryNotification> CategoryNotification { get; set; }
+        public DbSet<WaterResult> WaterResult { get; set; }
         public DbSet<CategoryPermissionForRole> CategoryPermissionForRole { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<LocaleResourceKey> LocaleResourceKey { get; set; }

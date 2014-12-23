@@ -1,0 +1,76 @@
+﻿@model MVCForum.Website.ViewModels.WaterViewModel
+@{
+  var topicSolved = true ? "answered" : "";
+  var hotCount = Model.LatestMonthHot;
+  var coldCount = Model.LatestMonthCold;
+  var monthName = Model.LatestMonthTime.HasValue ?
+    string.Format("{0} {1} г.", Model.LatestMonthTime.Value.Month.MonthName(), Model.LatestMonthTime.Value.Year) :
+    string.Empty;
+}
+
+@using (Html.BeginForm("SetWaterResults", "Water", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+  @Html.ValidationSummary(false)
+  <fieldset>
+    <legend>Последние показания (@Html.Raw(monthName))</legend>
+    <table>
+      <tr>
+        <td>
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Cold)
+          </div>
+        </td>
+        <td>
+          <div class="editor-label answered">
+            @Html.Raw(Model.LatestMonthCold)
+          </div>
+        </td>
+
+        <td>
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Hot)
+          </div>
+        </td>
+        <td>
+          <div class="editor-label answered">
+            @Html.Raw(Model.LatestMonthHot)
+          </div>
+        </td>
+      </tr>
+    </table>
+  </fieldset>
+  <fieldset>
+    <legend>Ввести новые показания</legend>
+    <table>
+      <tr>
+        <td>
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Cold)
+          </div>
+        </td>
+        <td>
+          <div class="editor-field">
+            @Html.EditorFor(model => model.Cold)
+            @Html.ValidationMessageFor(model => model.Cold)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Hot)
+          </div>
+        </td>
+        <td>
+          <div class="editor-field">
+            @Html.EditorFor(model => model.Hot)
+            @Html.ValidationMessageFor(model => model.Hot)
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="submit-holder">
+      <input type="submit" class="btn btn-large btn-success" value="Update" />
+    </div>
+</fieldset>
+}

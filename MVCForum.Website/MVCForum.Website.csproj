@@ -330,6 +330,7 @@
     <Compile Include="Controllers\ClosedController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Controllers\WaterController.cs" />
     <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Controllers\PrivateMessageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="Areas\Admin\ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\Admin\ViewModels\ModerateViewModels.cs" />
+    <Compile Include="ViewModels\WaterViewModel.cs" />
     <Compile Include="ViewModels\UploadViewModels.cs" />
     <Compile Include="ViewModels\BadgeViewModels.cs" />
     <Compile Include="ViewModels\CategoryViewModels.cs" />
@@ -1764,6 +1766,7 @@
     <Content Include="Themes\Dark\Views\Web.config" />
     <Content Include="Views\Shared\_GenericMessage.cshtml" />
     <Content Include="Scripts\version.json" />
+    <None Include="Themes\Metro\Views\Shared\_WaterBlock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\Dark\Views\Extensions\" />

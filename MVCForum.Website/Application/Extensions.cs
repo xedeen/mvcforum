@@ -51,7 +51,14 @@ namespace MVCForum.Website.Application
                 return (num / 1000D).ToString("0.#") + "K";
 
             return num.ToString(CultureInfo.InvariantCulture);
-        } 
+        }
+
+      public static string MonthName(this int monthIndex)
+      {
+        if (monthIndex > 0 && monthIndex <= 12)
+          return CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(monthIndex);
+        return string.Empty;
+      }
 
         /// <summary>
         /// Gets the specific language text from the language key

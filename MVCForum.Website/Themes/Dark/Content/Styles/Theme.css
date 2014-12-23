@@ -149,6 +149,7 @@ select { }
 .topicstats { text-align: center; }
 .statsblock { font-size: 20px; font-weight: bold; padding: 8px 0 2px 0; color: #ccc; border: 1px solid #292927; height: 45px; width: 29.5%; float: left; background: none repeat scroll 0 0 #31312f; -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px; }
 .statsblock span { font-size: 10px; font-weight: normal; display: block; }
+.waterstatsblock { margin: 2px;}
 
 .topicvotes { }
 .topicvotessmall { background: none repeat scroll 0 0 #BFBFBF; display: block; width: 25px; font-size: 18px; text-align: center; }

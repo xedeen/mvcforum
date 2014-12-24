@@ -262,7 +262,7 @@ namespace MVCForum.Tests.Service_Tests
           var membershipService = new MembershipService(membershipRepository, settingsRepository, emailService,
             localisationService, _activityService, _privateMessageService,
             _membershipUserPointsService, _topicNotificationService, _voteService, _badgeService,
-            _categoryNotificationService, _api, _loggingService, _w
+            _categoryNotificationService, _api, _loggingService, _waterService
             );
 
             var report = membershipService.FromCsv(testData);

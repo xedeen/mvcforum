@@ -8,9 +8,7 @@ namespace MVCForum.Data.Mapping
     public WaterResultMapping()
     {
       HasKey(x => x.Id);
-
       HasRequired(x => x.User).WithMany(x => x.WaterResults).Map(x => x.MapKey("MembershipUser_Id"));
-
     }
   }
 }

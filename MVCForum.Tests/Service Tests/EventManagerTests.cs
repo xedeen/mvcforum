@@ -39,7 +39,7 @@ namespace MVCForum.Tests.Service_Tests
             _voteService = Substitute.For<IVoteService>();
             _badgeService = Substitute.For<IBadgeService>();
             _categoryNotificationService = Substitute.For<ICategoryNotificationService>();
-            _waterService = Substitute.For<IWaterService>()
+          _waterService = Substitute.For<IWaterService>();
             _loggingService = Substitute.For<ILoggingService>();
         }
 

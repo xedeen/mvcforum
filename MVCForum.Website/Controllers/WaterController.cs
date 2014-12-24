@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
+using MembershipUser = MVCForum.Domain.DomainModel.MembershipUser;
 
 namespace MVCForum.Website.Controllers
 {
@@ -15,15 +17,18 @@ namespace MVCForum.Website.Controllers
       private readonly IWaterService _waterService;
       private MembershipUser LoggedOnUser;
       private MembershipRole UsersRole;
-      
-      public WaterController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, 
-            IRoleService roleService, ISettingsService settingsService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
-        {
-            
-        }
 
-        /// <summary>
+      public WaterController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
+        IMembershipService membershipService, ILocalizationService localizationService,
+        IRoleService roleService, ISettingsService settingsService,
+        IWaterService waterService)
+        : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+      {
+        _waterService = waterService;
+        LoggedOnUser = UserIsAuthenticated ? MembershipService.GetUser(Username) : null;
+      }
+
+      /// <summary>
         /// Lists out all languages in a partial view. For example, used to display list of 
         /// available languages along the top of every page
         /// </summary>
@@ -48,32 +53,43 @@ namespace MVCForum.Website.Controllers
         /// <param name="lang"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public ActionResult SetWaterResults(int cold,int hot)
         {
-            using (UnitOfWorkManager.NewUnitOfWork())
+          if (LoggedOnUser == null)
+          {
+            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
+          }
+
+          // Quick check to see if user is locked out, when logged in
+          if (LoggedOnUser.IsLockedOut | !LoggedOnUser.IsApproved)
+          {
+            FormsAuthentication.SignOut();
+            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
+          }
+
+          using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+          {
+            _waterService.Add(new WaterResult
             {
-              MembershipService.Get
-               /* var language = LocalizationService.Get(lang);
-                LocalizationService.CurrentLanguage = language;
+              Cold = cold,
+              Hot = hot,
+              User = LoggedOnUser
+            });
 
-                // The current language is stored in a cookie
-                var cookie = new HttpCookie(AppConstants.LanguageIdCookieName)
-                {
-                    HttpOnly = false,
-                    Value = language.Id.ToString(),
-                    Expires = DateTime.UtcNow.AddYears(1)
-                };
-
-                Response.Cookies.Add(cookie);
-
-                //TempData[AppConstants.MessageViewBagName] = new GenericMessageViewModel
-                //{
-                //    Message = LocalizationService.GetResourceString("Language.Changed"),
-                //    MessageType = GenericMessages.success
-                //};
-              */
-                return Content("success"); 
+            try
+            {
+              unitOfWork.Commit();
             }
+
+            catch (Exception ex)
+            {
+              unitOfWork.Rollback();
+              LoggingService.Error(ex);
+              throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+            }
+            return Content("success");
+          }
         }
     }
 }

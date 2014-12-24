@@ -113,6 +113,7 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IMembershipUserPointsRepository, MembershipUserPointsRepository>();
             container.BindInRequestScope<ICategoryPermissionForRoleRepository, CategoryPermissionForRoleRepository>();
             container.BindInRequestScope<ICategoryNotificationRepository, CategoryNotificationRepository>();
+            container.BindInRequestScope<IWaterResultRepository, WaterResultRepository>();
             container.BindInRequestScope<ITopicNotificationRepository, TopicNotificationRepository>();
             container.BindInRequestScope<IPrivateMessageRepository, PrivateMessageRepository>();
             container.BindInRequestScope<IActivityRepository, ActivityRepository>();

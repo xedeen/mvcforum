@@ -56,6 +56,7 @@ namespace MVCForum.Data.Context
             modelBuilder.Configurations.Add(new BadgeTypeTimeLastCheckedMapping());
             modelBuilder.Configurations.Add(new CategoryMapping());
             modelBuilder.Configurations.Add(new CategoryNotificationMapping());
+            modelBuilder.Configurations.Add(new WaterResultMapping());
             modelBuilder.Configurations.Add(new CategoryPermissionForRoleMapping());
             modelBuilder.Configurations.Add(new LanguageMapping());
             modelBuilder.Configurations.Add(new LocaleResourceKeyMapping());

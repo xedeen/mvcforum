@@ -648,7 +648,7 @@ namespace MVCForum.Services
                 waterResultsToDelete.AddRange(user.WaterResults);
                 foreach (var result in waterResultsToDelete)
                 {
-                  _waterService.Delete(waterResultsToDelete);
+                  _waterService.Delete(result);
                 }
 
                 // Just clear the roles, don't delete them

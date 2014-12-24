@@ -1769,6 +1769,9 @@
     <Content Include="Views\Shared\_GenericMessage.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Themes\Metro\Views\Shared\_WaterBlock.cshtml" />
+    <Content Include="Themes\Metro\Views\Water\CreateSendWaterButton.cshtml" />
+    <Content Include="Themes\Metro\Views\Water\CreateExportWaterButton.cshtml" />
+    <Content Include="Themes\Metro\Views\Water\WaterForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\Dark\Views\Extensions\" />

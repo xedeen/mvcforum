@@ -70,7 +70,12 @@
       </tr>
     </table>
     <div class="submit-holder">
-      <input type="submit" class="btn btn-large btn-success" value="Update" />
+      @if (User.Identity.IsAuthenticated)
+      {
+        @Html.Action("CreateSendWaterButton", "Water")
+        @Html.Action("CreateExportWaterButton", "Water")
+      }
+      @*<input type="submit" class="btn btn-large btn-success" value="Update" />*@
     </div>
 </fieldset>
 }

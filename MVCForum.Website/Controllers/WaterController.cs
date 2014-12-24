@@ -15,52 +15,122 @@ namespace MVCForum.Website.Controllers
     public partial class WaterController : BaseController
     {
       private readonly IWaterService _waterService;
+      private readonly ICategoryService _categoryService;
       private MembershipUser LoggedOnUser;
       private MembershipRole UsersRole;
 
       public WaterController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
         IMembershipService membershipService, ILocalizationService localizationService,
         IRoleService roleService, ISettingsService settingsService,
-        IWaterService waterService)
+        IWaterService waterService, ICategoryService categoryService)
         : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
       {
         _waterService = waterService;
+        _categoryService = categoryService;
         LoggedOnUser = UserIsAuthenticated ? MembershipService.GetUser(Username) : null;
-      } 
-        [ChildActionOnly]
-        public ActionResult Index()
+        UsersRole = LoggedOnUser == null ? RoleService.GetRole(AppConstants.GuestRoleName) : LoggedOnUser.Roles.FirstOrDefault();
+      }
+
+      public PartialViewResult CreateSendWaterButton()
+      {
+        var viewModel = new SendOrExportWaterButtonViewModel
         {
-          if (LoggedOnUser == null)
-          {
-            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
-          }
+          LoggedOnUser = LoggedOnUser
+        };
 
-          // Quick check to see if user is locked out, when logged in
-          if (LoggedOnUser.IsLockedOut | !LoggedOnUser.IsApproved)
+        if (LoggedOnUser != null)
+        {
+          // Add all categories to a permission set
+          var allCategories = _categoryService.GetAll();
+          using (UnitOfWorkManager.NewUnitOfWork())
           {
-            FormsAuthentication.SignOut();
-            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
-          }
-
-          var result = _waterService.GetByUser(LoggedOnUser).OrderByDescending(x => x.Date).FirstOrDefault();
-
-          WaterViewModel viewModel;
-          if (null != result)
-          {
-            viewModel = new WaterViewModel
+            foreach (var category in allCategories)
             {
-              Cold = result.Cold,
-              Hot = result.Hot,
-              LatestMonthCold = result.Cold,
-              LatestMonthHot = result.Hot,
-              LatestMonthTime = result.Date
-            };
+              // Now check to see if they have access to any categories
+              // if so, check they are allowed to create topics - If no to either set to false
+              viewModel.UserCanSendWater = false;
+              var permissionSet = RoleService.GetPermissions(category, UsersRole);
+              if (permissionSet[AppConstants.PermissionUpdateWaterResult].IsTicked)
+              {
+                viewModel.UserCanSendWater = true;
+                break;
+              }
+            }
           }
-          else
+        }
+        return PartialView(viewModel);
+      }
+
+      public PartialViewResult CreateExportWaterButton()
+      {
+        var viewModel = new SendOrExportWaterButtonViewModel
+        {
+          LoggedOnUser = LoggedOnUser
+        };
+
+        if (LoggedOnUser != null)
+        {
+          // Add all categories to a permission set
+          var allCategories = _categoryService.GetAll();
+          using (UnitOfWorkManager.NewUnitOfWork())
           {
-            viewModel=new WaterViewModel();
+            foreach (var category in allCategories)
+            {
+              // Now check to see if they have access to any categories
+              // if so, check they are allowed to create topics - If no to either set to false
+              viewModel.UserCanSendWater = false;
+              var permissionSet = RoleService.GetPermissions(category, UsersRole);
+              if (permissionSet[AppConstants.PermissionExportWaterResult].IsTicked)
+              {
+                viewModel.UserCanSendWater = true;
+                break;
+              }
+            }
           }
-          return PartialView("_WaterBlock", viewModel);
+        }
+        return PartialView(viewModel);
+      }
+
+
+        [ChildActionOnly]
+        public PartialViewResult Index()
+        {
+          var viewModel = new WaterViewModel();
+
+          if (LoggedOnUser != null)
+          {
+            // Add all categories to a permission set
+            var allCategories = _categoryService.GetAll();
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+              foreach (var category in allCategories)
+              {
+                // Now check to see if they have access to any categories
+                // if so, check they are allowed to create topics - If no to either set to false
+                viewModel.UserCanSendWater = false;
+                var permissionSet = RoleService.GetPermissions(category, UsersRole);
+                if (permissionSet[AppConstants.PermissionUpdateWaterResult].IsTicked)
+                {
+                  viewModel.UserCanSendWater = true;
+                  break;
+                }
+              }
+            }
+          }
+
+          if (viewModel.UserCanSendWater)
+          {
+            var result = _waterService.GetByUser(LoggedOnUser).OrderByDescending(x => x.Date).FirstOrDefault();
+            if (null != result)
+            {
+              viewModel.Cold = result.Cold;
+              viewModel.Hot = result.Hot;
+              viewModel.LatestMonthCold = result.Cold;
+              viewModel.LatestMonthHot = result.Hot;
+              viewModel.LatestMonthTime = result.Date;
+            }
+          }
+          return PartialView("WaterForm", viewModel);
         }
 
         /// <summary>

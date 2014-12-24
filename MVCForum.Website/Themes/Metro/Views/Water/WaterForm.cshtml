@@ -1,0 +1,103 @@
+﻿@model MVCForum.Website.ViewModels.WaterViewModel
+@{
+  var topicSolved = true ? "answered" : "";
+  var hotCount = Model.LatestMonthHot;
+  var coldCount = Model.LatestMonthCold;
+  var monthName = Model.LatestMonthTime.HasValue ?
+    string.Format("{0} {1} г.", Model.LatestMonthTime.Value.Month.MonthName(), Model.LatestMonthTime.Value.Year) :
+    "";
+  var userHasPrev = Model.LatestMonthTime.HasValue;
+}
+ 
+@using (Html.BeginForm("SetWaterResults", "Water", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+   if (Model.UserCanSendWater)
+   {
+     @Html.ValidationSummary(false)
+     if (userHasPrev)
+     {
+       <fieldset>
+         <legend>Последние показания (@Html.Raw(monthName))</legend>
+         <table>
+           <tr>
+             <td>
+               <div class="editor-label">
+                 @Html.LabelFor(model => model.Cold)
+               </div>
+             </td>
+             <td>
+               <div class="editor-label answered">
+                 @Html.Raw(Model.LatestMonthCold)
+               </div>
+             </td>
+
+             <td>
+               <div class="editor-label">
+                 @Html.LabelFor(model => model.Hot)
+               </div>
+             </td>
+             <td>
+               <div class="editor-label answered">
+                 @Html.Raw(Model.LatestMonthHot)
+               </div>
+             </td>
+           </tr>
+         </table>
+       </fieldset>
+     }
+     <fieldset>
+       <legend>Ввести новые показания</legend>
+       <table>
+         <tr>
+           <td>
+             <div class="editor-label">
+               @Html.LabelFor(model => model.Cold)
+             </div>
+           </td>
+           <td>
+             <div class="editor-field">
+               @Html.EditorFor(model => model.Cold)
+               @Html.ValidationMessageFor(model => model.Cold)
+             </div>
+           </td>
+         </tr>
+         <tr>
+           <td>
+             <div class="editor-label">
+               @Html.LabelFor(model => model.Hot)
+             </div>
+           </td>
+           <td>
+             <div class="editor-field">
+               @Html.EditorFor(model => model.Hot)
+               @Html.ValidationMessageFor(model => model.Hot)
+             </div>
+           </td>
+         </tr>
+       </table>
+       <div class="submit-holder">
+         @if (User.Identity.IsAuthenticated)
+         {
+           @Html.Action("CreateSendWaterButton", "Water")
+           @Html.Action("CreateExportWaterButton", "Water")
+         }
+      @*<input type="submit" class="btn btn-large btn-success" value="Update" />*@</div>
+     </fieldset>
+   }
+   else
+   {
+    <div class="documentation-message-block">
+      <h3>Ввод показаний счетчиков воды</h3>
+      <p>
+        К сожалению, вводить показания могут только пользователи, зарегистрированные как члены ТСЖ.
+      </p>
+      <p>
+        Это сделано для того, чтобы нельзя было вводить чужие показания.
+      </p>
+      <p> 
+        Получите свой логин и пароль у администратора.
+      </p>
+      <p><a href="" class="btn">Сделать запрос</a></p>
+    </div>
+   }
+}

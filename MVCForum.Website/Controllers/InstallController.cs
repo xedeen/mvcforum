@@ -395,6 +395,8 @@ namespace MVCForum.Website.Controllers
                         var createTopics = new Permission { Name = "Create Topics" };
                         var attachFiles = new Permission { Name = "Attach Files" };
                         var denyAccess = new Permission { Name = "Deny Access" };
+                        var updateWaterResult = new Permission {Name = "Update Water Result"};
+                        var exportWaterResult = new Permission {Name = "Export Water Result"};
 
                         _permissionService.Add(readOnly);
                         _permissionService.Add(deletePosts);
@@ -406,6 +408,8 @@ namespace MVCForum.Website.Controllers
                         _permissionService.Add(createTopics);
                         _permissionService.Add(attachFiles);
                         _permissionService.Add(denyAccess);
+                        _permissionService.Add(updateWaterResult);
+                        _permissionService.Add(exportWaterResult);
 
                         // create the admin user and put him in the admin role
                         var admin = new MembershipUser

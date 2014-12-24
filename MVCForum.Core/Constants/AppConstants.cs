@@ -74,6 +74,10 @@
         public const string PermissionCreateTopics = "Create Topics";
         public const string PermissionAttachFiles = "Attach Files";
 
+        //added in 1.5.1
+        public const string PermissionUpdateWaterResult = "Update Water Result";
+        public const string PermissionExportWaterResult = "Export Water Result";
+
         // Paging options
         public const int AdminListPageSize = 30;
         public const int PagingGroupSize = 10;

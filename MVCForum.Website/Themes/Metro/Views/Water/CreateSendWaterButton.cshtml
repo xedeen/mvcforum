@@ -1,0 +1,5 @@
+﻿@model MVCForum.Website.ViewModels.SendOrExportWaterButtonViewModel
+@if (Model.LoggedOnUser.DisablePosting != true && Model.UserCanSendWater)
+{
+  <input type="submit" class="btn btn-large btn-success" value="Отправить показания" />
+}

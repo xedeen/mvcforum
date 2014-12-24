@@ -30,16 +30,37 @@ namespace MVCForum.Website.Controllers
         [ChildActionOnly]
         public ActionResult Index()
         {
+          if (LoggedOnUser == null)
+          {
+            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
+          }
 
-          var viewModel = new WaterViewModel
+          // Quick check to see if user is locked out, when logged in
+          if (LoggedOnUser.IsLockedOut | !LoggedOnUser.IsApproved)
+          {
+            FormsAuthentication.SignOut();
+            throw new Exception(LocalizationService.GetResourceString("Errors.NoAccess"));
+          }
+
+          var result = _waterService.GetByUser(LoggedOnUser).OrderByDescending(x => x.Date).FirstOrDefault();
+
+          WaterViewModel viewModel;
+          if (null != result)
+          {
+            viewModel = new WaterViewModel
             {
-              LatestMonthCold = 1212,
-              LatestMonthHot = 4561,
-              Cold = 1212,
-              Hot = 4561,
-              LatestMonthTime = DateTime.Now.AddMonths(-1),
+              Cold = result.Cold,
+              Hot = result.Hot,
+              LatestMonthCold = result.Cold,
+              LatestMonthHot = result.Hot,
+              LatestMonthTime = result.Date
             };
-            return PartialView("_WaterBlock", viewModel);
+          }
+          else
+          {
+            viewModel=new WaterViewModel();
+          }
+          return PartialView("_WaterBlock", viewModel);
         }
 
         /// <summary>

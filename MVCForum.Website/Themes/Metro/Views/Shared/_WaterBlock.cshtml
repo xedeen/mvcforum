@@ -7,7 +7,7 @@
     string.Format("{0} {1} г.", Model.LatestMonthTime.Value.Month.MonthName(), Model.LatestMonthTime.Value.Year) :
     string.Empty;
 }
-
+ 
 @using (Html.BeginForm("SetWaterResults", "Water", FormMethod.Post, new {@class = "form-horizontal"}))
 {
   @Html.ValidationSummary(false)

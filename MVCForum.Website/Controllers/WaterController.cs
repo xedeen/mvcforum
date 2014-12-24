@@ -26,16 +26,11 @@ namespace MVCForum.Website.Controllers
       {
         _waterService = waterService;
         LoggedOnUser = UserIsAuthenticated ? MembershipService.GetUser(Username) : null;
-      }
-
-      /// <summary>
-        /// Lists out all languages in a partial view. For example, used to display list of 
-        /// available languages along the top of every page
-        /// </summary>
-        /// <returns></returns>
+      } 
         [ChildActionOnly]
         public ActionResult Index()
         {
+
           var viewModel = new WaterViewModel
             {
               LatestMonthCold = 1212,

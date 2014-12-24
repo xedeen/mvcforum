@@ -1768,7 +1768,7 @@
     <Content Include="Themes\Dark\Views\Web.config" />
     <Content Include="Views\Shared\_GenericMessage.cshtml" />
     <Content Include="Scripts\version.json" />
-    <None Include="Themes\Metro\Views\Shared\_WaterBlock.cshtml" />
+    <Content Include="Themes\Metro\Views\Shared\_WaterBlock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\Dark\Views\Extensions\" />
